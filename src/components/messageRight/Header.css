@@ -4,6 +4,8 @@
     padding: 10px 20px;
     background-color: #5f75f5;
     color: white;
+    width: 100%;
+    border-radius: 0 20px 0 0;
   }
   
   .user-image {

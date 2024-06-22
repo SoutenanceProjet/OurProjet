@@ -1,10 +1,9 @@
 import React from "react"
 import SignUp from "./pages/signUp/signUp"
 import SignIn from "./pages/signIn/signIn"
-import FirstPart from "./components/messageRight/firstPart/firstPart";
-import SecondPart from "./components/messageRight/secondPart/secondPart";
-import MessageRight from "./components/messageRight/messageRight";
-import  MessageRight  from "./pages/message/messageRight/messageRight.jsx";
+import MessageLeft from "./pages/message/messageLeft/messageLeft.jsx"
+import MessageRight  from "./pages/message/messageRight/messageRight.jsx";
+import Message from "./pages/message/message.jsx";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -14,12 +13,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<SignIn />} />
-          <Route path="/signUp" element={<SignUp />} />
           <Route path="/signIn" element={<SignIn />} />
-          <Route path="/f" element={<FirstPart />} />
-          <Route path="/p" element={<SecondPart />} />
-          <Route path="/m" element={<MessageRight />} />
-          <Route path="/messageRight" element={<MessageRight />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/m" element={<Message />} />
         </Routes>
       </Router>
     </>

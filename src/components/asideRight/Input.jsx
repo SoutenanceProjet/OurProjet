@@ -4,7 +4,7 @@ export function Input(props) {
 
 
     return <>
-        <div> <input
+        <div className='InputBox'> <input
             type={props.type}
             placeholder={props.placeholder}
             id={props.id}

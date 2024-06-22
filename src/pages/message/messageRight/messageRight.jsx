@@ -2,7 +2,7 @@
 import { Header } from "../../../components/messageRight/Header.jsx";
 import MessageList from "../../../components/messageRight/MessageList.jsx";
 import MessageBox from "../../../components/messageRight/MessageBox.jsx";
-
+import './messageRight.css'
 
 
 
@@ -23,16 +23,18 @@ function MessageRight() {
 
 
 
-    return (<div className="area">
-                 <div>
-                     <Header name={user.name} profile={user.profile} active={user.active} />
-                     <MessageList messages={messages} currentUser={user.name} />
-                 </div>
-                  <div>
-                            <MessageBox />
-                  </div>
-
-         </div>
+    return (
+    <>
+        <div className="area">
+                <div>
+                    <Header name={user.name} profile={user.profile} active={user.active} />
+                    <MessageList messages={messages} currentUser={user.name} />
+                </div>
+                <div>
+                    <MessageBox />
+                </div>
+        </div>
+    </>
     );
 }
 

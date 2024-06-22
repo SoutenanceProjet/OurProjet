@@ -28,12 +28,9 @@ const MessageBox = () => {
     return (
 
 
-
-        <div className="container">
+    <>
+        <div className="containerBox">
             <div className="chat-container">
-
-
-
                 <div className="message-input">
                     <FaPaperclip className="attach-icon" size={24} onClick={handleAttachClick} />
 
@@ -42,7 +39,6 @@ const MessageBox = () => {
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Tapez un message..."
                     />
-
                 </div>
                 <input
                     type="file"
@@ -56,6 +52,7 @@ const MessageBox = () => {
 
             </div>
         </div>
+        </>
     );
 };
 
