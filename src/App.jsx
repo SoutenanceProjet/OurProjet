@@ -4,6 +4,7 @@ import SignIn from "./pages/signIn/signIn"
 import FirstPart from "./components/messageRight/firstPart/firstPart";
 import SecondPart from "./components/messageRight/secondPart/secondPart";
 import MessageRight from "./components/messageRight/messageRight";
+import  MessageRight  from "./pages/message/messageRight/messageRight.jsx";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/f" element={<FirstPart />} />
           <Route path="/p" element={<SecondPart />} />
           <Route path="/m" element={<MessageRight />} />
+          <Route path="/messageRight" element={<MessageRight />} />
         </Routes>
       </Router>
     </>

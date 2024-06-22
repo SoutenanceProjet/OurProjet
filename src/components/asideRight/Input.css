@@ -5,11 +5,11 @@
     border-radius: 8px;
     border-width: 1px;
     border-color: #979191;
-    padding: 10px 5px;
+    padding: 8px 5px;
     outline: none;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: 200;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     /* box-shadow: 0.5px 0 2px rgba(134, 182, 238, 0.1); */
 }
