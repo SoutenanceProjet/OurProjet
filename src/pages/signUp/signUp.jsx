@@ -1,7 +1,6 @@
 import React from "react";
 import AsideLeft from "../../components/asideLeft/AsideLeft";
 import AsideRightUp from "../../components/asideRight/asideRightUp";
-import './signUp.css'
 
 export default function SignUp(props){
 

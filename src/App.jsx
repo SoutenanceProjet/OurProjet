@@ -4,7 +4,9 @@ import SignIn from "./pages/signIn/signIn"
 import MessageLeft from "./pages/message/messageLeft/messageLeft.jsx"
 import MessageRight  from "./pages/message/messageRight/messageRight.jsx";
 import Message from "./pages/message/message.jsx";
+import Setting from "./pages/setting/setting.jsx";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.css'
 
 function App() {
 
@@ -15,7 +17,8 @@ function App() {
           <Route path="/" element={<SignIn />} />
           <Route path="/signIn" element={<SignIn />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="/m" element={<Message />} />
+          <Route path="/message" element={<Message />} />
+          <Route path="/setting" element={<Setting />} />
         </Routes>
       </Router>
     </>

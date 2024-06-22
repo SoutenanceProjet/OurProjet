@@ -1,7 +1,6 @@
 import React from 'react'
 import MessageRight from './messageRight/messageRight'
 import MessageLeft from './messageLeft/messageLeft'
-import './message.css'
 
 const message = () => {
   return (

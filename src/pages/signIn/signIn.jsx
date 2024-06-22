@@ -2,7 +2,6 @@ import React from 'react'
 import AsideLeft from '../../components/asideLeft/AsideLeft'
 import AsideRightIn from '../../components/asideRight/asideRightIn.jsx';
 import { useState } from 'react';
-import './signIn.css'
 
 const SignIn = () => {
 
