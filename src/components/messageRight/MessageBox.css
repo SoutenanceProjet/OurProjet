@@ -1,0 +1,118 @@
+*{
+    box-sizing: border-box;
+}
+.container{
+    width: 100%;
+    background-color: #fff;
+    padding: 10px ;
+    text-align: center;
+} 
+.chat-container {
+    position: absolute;
+    bottom: 0;
+    width: 96%;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 30px;
+    border-radius: 20px;
+}
+
+.message-input {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    flex: 2;
+}
+
+.message-input textarea {
+      
+    border: none;
+    border-radius: 18px;
+    padding: 10px 20px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    /* background-color: #f5f5f5; */
+    flex: 2;
+    margin-left: 5px;
+}
+
+ button {
+    scale: 0.9;
+    border: none;
+    color: #5f72f5;
+    padding: 20px;
+    cursor: pointer;
+    outline: none;
+    background-color: #f5f5f5;
+    transition: scale 5ms;
+
+}
+
+ button :hover{
+
+        scale: 1.1;
+} 
+
+ .attach-icon {
+    position: relative;
+    right: 10px;
+    cursor: pointer;
+    color: #888;
+    
+}
+
+
+
+
+@media(max-width:365px) {
+
+    .attach-icon{
+        left: -15px;
+    }
+
+    button{
+        margin-left: 0;
+    }
+
+    .message-input textarea {
+
+        padding-left: 30px;
+        width:150px;
+
+    }
+
+.chat-container {
+
+    width: 100%;
+    margin: 0;
+}
+    
+}
+
+
+@media(max-width:275px) {
+
+    
+
+    button{
+        margin-left: 0;
+    }
+
+    .message-input textarea {
+
+        padding-left: 30px;
+        width:130px;
+
+    }
+
+.chat-container {
+
+    width: 100%;
+    margin: 0;
+}
+    
+}
