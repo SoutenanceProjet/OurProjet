@@ -2,10 +2,13 @@ import React from 'react'
 import './discuss.css'
 
 const discuss = (props) => {
+
+  let myclass = `discuss__image ${props.class}`
+
   return (
     <>
-      <div className='discuss__box'>
-        <div className='discuss__image'>
+      <div className='discuss__box otherDiscuss__box'>
+        <div className={myclass}>
             <img src={props.road} alt='contactImg' />
         </div>
         <div className='discuss__message'>

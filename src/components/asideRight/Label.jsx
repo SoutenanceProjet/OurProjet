@@ -1,6 +1,6 @@
 import './Label.css';
 
-export function Label(props){
+export default function Label(props){
 
 
     return <>

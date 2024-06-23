@@ -1,6 +1,6 @@
 import './Input.css';
 
-export function Input(props) {
+export default function Input(props) {
 
 
     return <>

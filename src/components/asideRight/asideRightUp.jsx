@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
-import { Input } from '../../components/asideRight/Input.jsx';
-import { Label } from '../../components/asideRight/Label.jsx';
-import { Button } from '../../components/asideRight/Button.jsx';
+import  Input  from '../../components/asideRight/Input.jsx';
+import  Label  from '../../components/asideRight/Label.jsx';
+import  Button  from '../../components/asideRight/Button.jsx';
 import { FaCircleUser } from "react-icons/fa6";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import './asideRightUp.css'

@@ -1,8 +1,8 @@
 import './Button.css';
 
-export function Button(props) {
+export default function Button(props) {
 
     return <>
-                 <div  className="BtnContainer"> <button type = "submit" className="Btn">{props.text}</button></div>
+                 <div  className="BtnContainer editBtnContainer"> <button type = "submit" className="Btn editBtn">{props.text}</button></div>
     </>
 }

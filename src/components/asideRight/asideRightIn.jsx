@@ -1,7 +1,7 @@
 import React from 'react'
-import { Label } from './Label'
-import { Input } from './Input'
-import { Button } from './Button'
+import  Label  from './Label'
+import  Input  from './Input'
+import  Button  from './Button'
 import { useState } from 'react';
 import google from '../../assets/google.png'
 import './asideRightIn.css'

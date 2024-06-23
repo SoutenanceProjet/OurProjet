@@ -19,13 +19,13 @@ const firstPart = () => {
                     </div>
                     <div className='firstPart__imageSetting'>
                       <Link to={link}>
-                        <img src={logout} alt='User' />
+                        <img src={setting} alt='User' />
                         <div>Setting</div>
                       </Link>
                     </div>
                     <div className='firstPart__imageLogOut'>
                       <Link to={login}>
-                          <img src={setting} alt='User' />
+                          <img src={logout} alt='User' />
                           <div>Log out</div>
                       </Link>
                   </div>
