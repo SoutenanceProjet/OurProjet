@@ -34,6 +34,8 @@ const AsideRightUp = () => {
             }
     }
 
+    console.log(preview)
+
   return (
     <>
             <div className="container1">
