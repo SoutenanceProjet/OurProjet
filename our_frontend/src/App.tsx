@@ -4,6 +4,10 @@ import Message from "./pages/message/message";
 import Setting from "./pages/setting/setting";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
+import SenderMail from "./pages/senderMail/SenderMail";
+import Token from "./pages/token/Token";
+import NewPassword from "./pages/newPassword/newPassword";
+import PolitiquePage from "./pages/politiquePage/PolitiquePage";
 
 function App(): any {
 
@@ -16,6 +20,10 @@ function App(): any {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/message" element={<Message />} />
           <Route path="/setting" element={<Setting />} />
+          <Route path="/forgetPassword" element={<SenderMail />} />
+          <Route path="/token" element={<Token />} />
+          <Route path="/newPassword" element={<NewPassword />} />
+          <Route path="/politiquePage" element={<PolitiquePage />} />
         </Routes>
       </Router>
     </>

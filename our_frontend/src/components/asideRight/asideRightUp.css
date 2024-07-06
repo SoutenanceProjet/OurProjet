@@ -38,5 +38,11 @@ input[type = "file"]{
     padding: 0 5%;
     margin-top: 40px;
     overflow-x: auto;
-    height: 56%;
+    height: 50%;
+}
+.asideImage{
+    cursor: pointer;
+}
+form{
+    height: 100%;
 }

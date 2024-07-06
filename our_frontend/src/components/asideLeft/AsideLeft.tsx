@@ -9,9 +9,10 @@ interface AsideLeftProps{
     question: string, 
     link: string, 
     button: string
+    aside: string
 }
 
-export default function AsideLeft({title, description, description1, question, link, button}: AsideLeftProps): any {
+export default function AsideLeft({title, description, description1, question, link, button, aside}: AsideLeftProps): any {
 
 
     return (

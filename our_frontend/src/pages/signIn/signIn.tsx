@@ -1,5 +1,6 @@
 import AsideLeft from '../../components/asideLeft/AsideLeft'
 import AsideRightIn from '../../components/asideRight/asideRightIn.tsx';
+import aside from '../../assets/aside.png'
 
 const SignIn = () => {
 
@@ -21,6 +22,7 @@ const SignIn = () => {
                         question={question} 
                         button={button}
                         link = {link}
+                        aside={aside}
                     />
                     <AsideRightIn />
                 </div>

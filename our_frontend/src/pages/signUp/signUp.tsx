@@ -1,5 +1,6 @@
 import AsideLeft from "../../components/asideLeft/AsideLeft";
 import AsideRightUp from "../../components/asideRight/asideRightUp";
+import aside from '../../assets/aside.png'
 
 export default function SignUp(): any {
 
@@ -21,6 +22,7 @@ export default function SignUp(): any {
                         question={question} 
                         button={button}
                         link = {link}
+                        aside={aside}
                     />
                     <AsideRightUp />
                 </div>

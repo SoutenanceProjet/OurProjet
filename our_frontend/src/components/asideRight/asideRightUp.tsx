@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import Input from '../../components/asideRight/Input.tsx';
 import Label from '../../components/asideRight/Label.tsx';
 import Button from '../../components/asideRight/Button.tsx';
@@ -9,25 +9,38 @@ import { MdOutlinePhotoCamera } from "react-icons/md";
 import './asideRightUp.css'
 
 type UserForm = {
-    userName: string,
-    UserProfession: string,
-    UserNationality: string,
-    Email: string,
-    Password: string,
-    ConfirmPassword: string,
-    preview: any
+    firstname: string,
+    profession: string,
+    nationality: string,
+    email: string,
+    password: string,
+    confirmpassword: string,
+    image: string,
+    sex : string
+}
+
+const blankField: UserForm = {
+    firstname: '',
+    profession: '',
+    nationality: '',
+    email: '',
+    password: '',
+    confirmpassword: '',
+    image: '',
+    sex : ''
 }
 
 const AsideRightUp = () => {
 
     const [userForm, setUserForm] = useState<UserForm>()
-    const [UserName, setUserName] = useState<string>('');
-    const [UserProfession, setUserProfession] = useState<string>('');
-    const [UserNationality, setUserNationality] = useState<string>('');
-    const [Email, setEmail] = useState<string>('');
-    const [Password, setPassword] = useState<string>('');
-    const [ConfirmPassword, setConfirmPassword] = useState<string>('');
-    const [preview, setPreview] = useState(null);
+    const [firstname, setfirstname] = useState<string>('');
+    const [profession, setprofession] = useState<string>('');
+    const [nationality, setnationality] = useState<string>('');
+    const [email, setemail] = useState<string>('');
+    const [password, setpassword] = useState<string>('');
+    const [confirmpassword, setconfirmpassword] = useState<string>('');
+    const [preview, setPreview] = useState('');
+    const [sex, setsex] = useState<string>('');
 
     const handleClick = () => {
 
@@ -51,12 +64,53 @@ const AsideRightUp = () => {
         }
     }
 
+    async function handleSubmit(e: FormEvent<HTMLFormElement>){
+        e.preventDefault();
+
+        setUserForm({
+            firstname: firstname,
+            profession: profession,
+            nationality: nationality,
+            email: email,
+            password: password,
+            confirmpassword: confirmpassword,
+            image: preview,
+            sex : sex
+            })
+            
+            alert(userForm)
+
+           const response = await fetch("http://localhost:3000/users",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userForm)
+        })
+
+        if(response.ok){
+            const data = await response.json();
+            setfirstname(blankField.firstname)
+            setnationality(blankField.nationality)
+            setprofession(blankField.profession)
+            setemail(blankField.email)
+            setpassword(blankField.password)
+            setconfirmpassword(blankField.confirmpassword)
+            setPreview(blankField.image)
+            setsex(blankField.sex)
+            setUserForm(blankField)
+            console.log(data)
+        }else{
+            console.log("error when you trying to connect")
+        }
+    }
+
     return (
         <>
             <div className="container1">
                 <h1 className="centering color">Créer un compte</h1>
                 <div className="centering" >
-                    <span onClick={handleClick}>
+                    <span onClick={handleClick} className='asideImage'>
                         {preview ? <img src={preview} alt="Photo de profil" className="UserImage" /> : (<span><FaCircleUser className="icon color" />
                             <MdOutlinePhotoCamera className="camera" /></span>)
                         }
@@ -65,31 +119,34 @@ const AsideRightUp = () => {
                 </div>
                 {(!preview) && <div className="centering"><h4>Choisir une photo</h4></div>}
 
-                <div className="signUp__form">
-                    <Label idValue="UserName" text="Nom d'utilisateur" />
-                    <Input type="text" id="UserName" placeholder="Nom d'utilisateur" value={UserName} onChange={setUserName} />
+                <form onSubmit={handleSubmit}>
+                    <div className="signUp__form">
+                        <Label idValue="firstname" text="Nom d'utilisateur" />
+                        <Input type="text" id="firstname" placeholder="Nom d'utilisateur" value={firstname} onChange={setfirstname} />
 
-                    <Label idValue="UserSexe" text="Sexe" />
-                    <SexeDropdown />
+                        <Label idValue="UserSexe" text="Sexe" />
+                        <SexeDropdown onChange={setsex}/>
 
-                    <Label idValue="Profession" text="Profession" />
-                    <Input type="text" id="Profession" placeholder="Profession" value={UserProfession} onChange={setUserProfession} />
+                        <Label idValue="Profession" text="Profession" />
+                        <Input type="text" id="Profession" placeholder="Profession" value={profession} onChange={setprofession} />
 
-                    <Label idValue="Nationality" text="Nationalité" />
-                    <Input type="text" id="Nationality" placeholder="Nationalité" value={UserNationality} onChange={setUserNationality} />
+                        <Label idValue="Nationality" text="Nationalité" />
+                        <Input type="text" id="Nationality" placeholder="Nationalité" value={nationality} onChange={setnationality} />
 
 
-                    <Label idValue="Email" text="Adresse mail" />
-                    <Input type="text" id="Email" placeholder="example@gmail.com" value={Email} onChange={setEmail} />
+                        <Label idValue="email" text="Adresse mail" />
+                        <Input type="text" id="email" placeholder="example@gmail.com" value={email} onChange={setemail} />
 
-                    <Label idValue="Password" text="Mot de passe" />
-                    <Input type="password" id="Password" placeholder="Mot de passe" value={Password} onChange={setPassword} />
+                        <Label idValue="password" text="Mot de passe" />
+                        <Input type="password" id="password" placeholder="Mot de passe" value={password} onChange={setpassword} />
 
-                    <Label idValue="ConfirmPassword" text="Confirmer mot de passe" />
-                    <Input type="password" id="ConfirmPassword" placeholder="Confirme le mot de passe" value={ConfirmPassword} onChange={setConfirmPassword} />
+                        <Label idValue="confirmpassword" text="Confirmer mot de passe" />
+                        <Input type="password" id="confirmpassword" placeholder="Confirme le mot de passe" value={confirmpassword} onChange={setconfirmpassword} />
 
-                </div>
-                    <Button text="Créer"/>
+                    </div>
+                        <Button text="Créer"/>
+                </form>
+
             </div>
         </>
     )

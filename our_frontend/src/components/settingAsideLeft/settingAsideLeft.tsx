@@ -30,7 +30,7 @@ const settingAsideLeft = () => {
           </Link>
         </div>
         <div className='settingAdiseLeft__box4'>
-          <Link to="/setting" className='link'>
+          <Link to="/politiquePage" className='link'>
               <div className='imageContainer'>
                <img src={politiqueIcon} alt='' />
               </div>

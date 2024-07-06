@@ -7,9 +7,10 @@
     display: flex;
     flex-direction: column;
     gap: 3%;
+    overflow: auto;
 }
 .edit__container .edit__photo{
-    width: 50%;
+    width: 100%;
 }
 .edit__container .input1 ,.edit__container .input2{
     width: 70%;
