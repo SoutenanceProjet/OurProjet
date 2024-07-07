@@ -1,7 +1,13 @@
 import { CurrentUser } from './../decorators/current-user.decorator';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { Signin, Signup } from './users.dto';
+import {
+  ForgotPassword,
+  Signin,
+  Signup,
+  UpdatePassword,
+  VerifyOtpPayload,
+} from './users.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Session } from './users.typings';
 
@@ -24,5 +30,25 @@ export class UsersController {
   @Post('logout')
   async logout(@CurrentUser() { token }: Session) {
     return this.service.logout(token);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() { email }: ForgotPassword) {
+    return this.service.forgotPassword(email);
+  }
+
+  @Post('verify-otp')
+  async verifyOtp(@Body() data: VerifyOtpPayload) {
+    return this.service.verifyOtp(data);
+  }
+
+  @Post('update-password')
+  async updatePassword(@Body() data: UpdatePassword) {
+    return this.service.updatePassword(data);
+  }
+
+  @Get('me')
+  async me(@CurrentUser() { user }: Session) {
+    return user;
   }
 }

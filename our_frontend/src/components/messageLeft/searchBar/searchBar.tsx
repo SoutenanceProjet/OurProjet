@@ -1,25 +1,49 @@
-import './searchBar.css'
-import research from '../../../assets/search.svg'
-import { useState } from 'react'
+import './searchBar.css';
+import research from '../../../assets/search.svg';
+import { ChangeEvent, Dispatch, useRef, useState } from 'react';
 
-const searchBar = () => {
+type Props = {
+  search: string;
+  setSearch: Dispatch<string>;
+};
 
-  const [search, setSearch] = useState<string>('')
+const SearchBar = ({ search, setSearch }: Props) => {
+  const searchRef = useRef<HTMLInputElement | null>(null);
+  const [_search, _setSearch] = useState(search);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    _setSearch(value);
 
-  const handleChange = (e: any)=>{
-      setSearch(e.target.value)
-  }
+    if (searchRef && searchRef.current) {
+      setTimeout(() => {
+        if (value === searchRef.current?.value) {
+          setSearch(value);
+        }
+      }, 500);
+    }
+  };
 
   return (
     <>
-      <div className='searchBar__input'>
-        <div className='searchBar__box'>
-          <div className='searchBar__research'><img src={research} alt='loop' /></div>
-          <input type='text' placeholder='search chat' value={search} onChange={handleChange}/>
+      <div className="searchBar__input">
+        <div className="searchBar__box">
+          <div className="searchBar__research">
+            <img
+              src={research}
+              alt="loop"
+            />
+          </div>
+          <input
+            type="text"
+            ref={searchRef}
+            placeholder="search chat"
+            value={_search}
+            onChange={handleChange}
+          />
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default searchBar
+export default SearchBar;

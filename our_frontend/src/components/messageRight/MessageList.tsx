@@ -15,7 +15,6 @@ function MessageList({ messages, currentUser }: MessageListProp) {
   return (
     <div className="message-list">
       {messages.map((message) => (
-
         <Message
           text={message.text}
           isSender={message.sender === currentUser}
@@ -23,6 +22,6 @@ function MessageList({ messages, currentUser }: MessageListProp) {
       ))}
     </div>
   );
-};
+}
 
 export default MessageList;

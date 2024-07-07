@@ -50,3 +50,26 @@ export class Signin {
   @ApiProperty()
   password: string;
 }
+
+export class ForgotPassword {
+  @ApiProperty()
+  @IsEmail(undefined, { message: $t('BAD_EMAIL_FORMAT') })
+  email: string;
+}
+
+export class VerifyOtpPayload {
+  @ApiProperty()
+  userId: string;
+
+  @ApiProperty()
+  value: string;
+}
+
+export class UpdatePassword {
+  @ApiProperty()
+  userId: string;
+
+  @ApiProperty()
+  @IsStrongPassword(undefined, { message: $t('STRONG_PASSWORD_REQUIRED') })
+  password: string;
+}

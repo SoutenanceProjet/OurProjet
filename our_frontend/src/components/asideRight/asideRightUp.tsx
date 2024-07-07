@@ -1,155 +1,229 @@
-import { FormEvent, useState } from 'react';
-import Input from '../../components/asideRight/Input.tsx';
+import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react';
 import Label from '../../components/asideRight/Label.tsx';
 import Button from '../../components/asideRight/Button.tsx';
 import SexeDropdown from '../../components/asideRight/SexeDropdown.tsx';
 
-import { FaCircleUser } from "react-icons/fa6";
-import { MdOutlinePhotoCamera } from "react-icons/md";
-import './asideRightUp.css'
+import { FaCircleUser } from 'react-icons/fa6';
+import { MdOutlinePhotoCamera } from 'react-icons/md';
+import './asideRightUp.css';
+import { InputWithLabel } from './input-with-label.tsx';
+import { api } from '../../api/index.ts';
+import { useNavigate } from 'react-router-dom';
 
 type UserForm = {
-    firstname: string,
-    profession: string,
-    nationality: string,
-    email: string,
-    password: string,
-    confirmpassword: string,
-    image: string,
-    sex : string
-}
+  username: string;
+  profession: string;
+  nationality: string;
+  email: string;
+  password: string;
+  photo: string;
+  gender: string;
+};
 
 const blankField: UserForm = {
-    firstname: '',
-    profession: '',
-    nationality: '',
-    email: '',
-    password: '',
-    confirmpassword: '',
-    image: '',
-    sex : ''
-}
+  username: '',
+  profession: '',
+  nationality: '',
+  email: '',
+  password: '',
+  photo: '',
+  gender: 'FEMALE',
+};
 
 const AsideRightUp = () => {
+  const [userForm, setUserForm] = useState<UserForm>(blankField);
+  const [preview, setPreview] = useState('');
+  const imageRef = useRef<HTMLInputElement | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const [userForm, setUserForm] = useState<UserForm>()
-    const [firstname, setfirstname] = useState<string>('');
-    const [profession, setprofession] = useState<string>('');
-    const [nationality, setnationality] = useState<string>('');
-    const [email, setemail] = useState<string>('');
-    const [password, setpassword] = useState<string>('');
-    const [confirmpassword, setconfirmpassword] = useState<string>('');
-    const [preview, setPreview] = useState('');
-    const [sex, setsex] = useState<string>('');
-
-    const handleClick = () => {
-
-        const valable = document.getElementById("image");
-
-        if(valable){
-            valable.click();
-        }
+  const passwordHint = useMemo(() => {
+    if (confirmPassword && confirmPassword !== userForm.password) {
+      return 'Les mots de passe ne correspondent pas';
     }
+  }, [confirmPassword, userForm.password]);
 
-    const handleFileChange = (event: any) => {
-        const file = event.target.files[0];
-
-        if (file) {
-            const reader: any = new FileReader();
-            reader.onloadend = () => {
-                setPreview(reader.result);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-
-    async function handleSubmit(e: FormEvent<HTMLFormElement>){
-        e.preventDefault();
-
-        setUserForm({
-            firstname: firstname,
-            profession: profession,
-            nationality: nationality,
-            email: email,
-            password: password,
-            confirmpassword: confirmpassword,
-            image: preview,
-            sex : sex
-            })
-            
-            alert(userForm)
-
-           const response = await fetch("http://localhost:3000/users",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userForm)
-        })
-
-        if(response.ok){
-            const data = await response.json();
-            setfirstname(blankField.firstname)
-            setnationality(blankField.nationality)
-            setprofession(blankField.profession)
-            setemail(blankField.email)
-            setpassword(blankField.password)
-            setconfirmpassword(blankField.confirmpassword)
-            setPreview(blankField.image)
-            setsex(blankField.sex)
-            setUserForm(blankField)
-            console.log(data)
-        }else{
-            console.log("error when you trying to connect")
-        }
-    }
-
+  const formValid = useMemo(() => {
     return (
-        <>
-            <div className="container1">
-                <h1 className="centering color">Créer un compte</h1>
-                <div className="centering" >
-                    <span onClick={handleClick} className='asideImage'>
-                        {preview ? <img src={preview} alt="Photo de profil" className="UserImage" /> : (<span><FaCircleUser className="icon color" />
-                            <MdOutlinePhotoCamera className="camera" /></span>)
-                        }
-                    </span>
-                    <input type="file" id="image" onChange={handleFileChange} />
-                </div>
-                {(!preview) && <div className="centering"><h4>Choisir une photo</h4></div>}
+      userForm.email &&
+      userForm.gender &&
+      userForm.password &&
+      userForm.username &&
+      !passwordHint &&
+      confirmPassword
+    );
+  }, [userForm, passwordHint, confirmPassword]);
 
-                <form onSubmit={handleSubmit}>
-                    <div className="signUp__form">
-                        <Label idValue="firstname" text="Nom d'utilisateur" />
-                        <Input type="text" id="firstname" placeholder="Nom d'utilisateur" value={firstname} onChange={setfirstname} />
+  const pickImage = () => {
+    if (imageRef.current) {
+      imageRef.current.click();
+    }
+  };
 
-                        <Label idValue="UserSexe" text="Sexe" />
-                        <SexeDropdown onChange={setsex}/>
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement & HTMLSelectElement>,
+  ) => {
+    const { value, id } = e.target;
+    setUserForm({ ...userForm, [id]: value });
+  };
 
-                        <Label idValue="Profession" text="Profession" />
-                        <Input type="text" id="Profession" placeholder="Profession" value={profession} onChange={setprofession} />
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
 
-                        <Label idValue="Nationality" text="Nationalité" />
-                        <Input type="text" id="Nationality" placeholder="Nationalité" value={nationality} onChange={setnationality} />
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64value = reader.result as string;
+        setPreview(base64value);
+        setUserForm({ ...userForm, photo: base64value });
+      };
 
+      reader.readAsDataURL(file);
+    }
+  };
 
-                        <Label idValue="email" text="Adresse mail" />
-                        <Input type="text" id="email" placeholder="example@gmail.com" value={email} onChange={setemail} />
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-                        <Label idValue="password" text="Mot de passe" />
-                        <Input type="password" id="password" placeholder="Mot de passe" value={password} onChange={setpassword} />
+    setLoading(true);
+    try {
+      await api.post('users/signup', userForm);
+      navigate('/');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const messages = error.response.data.message as string[] | string;
+      setErrors(Array.isArray(messages) ? messages : [messages]);
+      setTimeout(() => {
+        setErrors([]);
+      }, 10000);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-                        <Label idValue="confirmpassword" text="Confirmer mot de passe" />
-                        <Input type="password" id="confirmpassword" placeholder="Confirme le mot de passe" value={confirmpassword} onChange={setconfirmpassword} />
+  return (
+    <>
+      <div className="container1">
+        <h1 className="centering color">Créer un compte</h1>
+        <div className="centering">
+          <span
+            onClick={pickImage}
+            className="asideImage">
+            {preview ? (
+              <img
+                src={preview}
+                alt="Photo de profil"
+                className="UserImage"
+              />
+            ) : (
+              <span>
+                <FaCircleUser className="icon color" />
+                <MdOutlinePhotoCamera className="camera" />
+              </span>
+            )}
+          </span>
+          <input
+            type="file"
+            ref={imageRef}
+            onChange={handleFileChange}
+          />
+        </div>
+        {!preview && (
+          <div className="centering">
+            <h4>Choisir une photo</h4>
+          </div>
+        )}
 
-                    </div>
-                        <Button text="Créer"/>
-                </form>
+        {errors.length > 0 && (
+          <div className="signUp__form__error ">
+            {errors.map((err, index) => (
+              <div key={index}>{err}</div>
+            ))}
+          </div>
+        )}
 
+        <form onSubmit={handleSubmit}>
+          <div className="signUp__form">
+            <InputWithLabel
+              idValue="username"
+              text="Nom d'utilisateur (*)"
+              placeholder="Nom d'utilisateur"
+              value={userForm.username}
+              onChange={handleChange}
+              type="text"
+            />
+            <div>
+              <Label
+                idValue="gender"
+                text="Sexe (*)"
+              />
+              <SexeDropdown onChange={handleChange} />
             </div>
-        </>
-    )
-}
 
-export default AsideRightUp
+            <InputWithLabel
+              idValue="profession"
+              text="Profession"
+              type="text"
+              id="profession"
+              placeholder="Profession"
+              value={userForm.profession}
+              onChange={handleChange}
+            />
+
+            <InputWithLabel
+              idValue="nationality"
+              text="Nationalité"
+              type="text"
+              id="nationality"
+              placeholder="Nationalité"
+              value={userForm.nationality}
+              onChange={handleChange}
+            />
+
+            <InputWithLabel
+              idValue="email"
+              text="Adresse mail (*)"
+              type="text"
+              id="email"
+              placeholder="example@gmail.com"
+              value={userForm.email}
+              onChange={handleChange}
+            />
+
+            <InputWithLabel
+              idValue="password"
+              text="Mot de passe"
+              type="password"
+              id="password"
+              placeholder="Mot de passe (*)"
+              value={userForm.password}
+              onChange={handleChange}
+            />
+
+            <div>
+              <InputWithLabel
+                idValue="confirmpassword"
+                text="Confirmer mot de passe"
+                type="password"
+                id="confirmpassword"
+                placeholder="Confirmer le mot de passe"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <span className="password-hint">{passwordHint}</span>
+            </div>
+          </div>
+          <Button
+            text="Créer"
+            disabled={!formValid || loading}
+            loading={loading}
+          />
+        </form>
+      </div>
+    </>
+  );
+};
+
+export default AsideRightUp;

@@ -1,35 +1,33 @@
-import React from 'react'
-import AsideLeft from '../../components/asideLeft/AsideLeft'
-import aside from '../../assets/newPassword.png'
-import ResetPassword from '../../components/forgotPassword/Reset Password/ResetPassword'
+import AsideLeft from '../../components/asideLeft/AsideLeft';
+import aside from '../../assets/newPassword.png';
+import ResetPassword from '../../components/forgotPassword/Reset Password/ResetPassword';
 
-const newPassword = () => {
-
-    const title: string = "Your new password",
-          description: string = "Now you can change your password",
-          description1: string = "",
-          question: string = "Go to login page",
-          button: string = "Connexion",
-          link: string = "/signIn"
+const NewPassword = () => {
+  const title: string = 'Your new password',
+    description: string = 'Now you can change your password',
+    description1: string = '',
+    question: string = 'Go to login page',
+    button: string = 'Connexion',
+    link: string = '/signIn';
 
   return (
     <>
       <div className="main">
-        <div className="aside"> 
-        <AsideLeft 
-            title = {title} 
-            description={description} 
+        <div className="aside">
+          <AsideLeft
+            title={title}
+            description={description}
             description1={description1}
-            question={question} 
+            question={question}
             button={button}
-            link = {link}
+            link={link}
             aside={aside}
-        />
-        <ResetPassword />
+          />
+          <ResetPassword />
         </div>
-    </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default newPassword
+export default NewPassword;

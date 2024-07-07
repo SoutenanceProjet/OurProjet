@@ -10,9 +10,12 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import { SecurityMiddleware } from './middlewares/security.middleware';
 import { I18nModule } from './i18n/i18n.module';
+import { EmailModule } from './email/email.module';
+import { OtpModule } from './otp/otp.module';
+import { ConversationsModule } from './conversations/conversations.module';
 
 @Module({
-  imports: [PrismaModule, UsersModule, I18nModule],
+  imports: [PrismaModule, UsersModule, I18nModule, EmailModule, OtpModule, ConversationsModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -23,6 +26,9 @@ export class AppModule implements NestModule {
       .exclude(
         { path: '/users/signin', method: RequestMethod.POST },
         { path: '/users/signup', method: RequestMethod.POST },
+        { path: '/users/forgot-password', method: RequestMethod.POST },
+        { path: '/users/verify-otp', method: RequestMethod.POST },
+        { path: '/users/update-password', method: RequestMethod.POST },
       )
       .forRoutes('*');
   }

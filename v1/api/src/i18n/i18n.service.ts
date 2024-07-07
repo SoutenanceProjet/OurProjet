@@ -5,7 +5,7 @@ import { fr } from './fr';
 @Injectable()
 export class I18nService {
   static dictionnary = { en, fr };
-  static locale = 'fr';
+  static locale = 'en';
 
   setCurrentLocale(locale: string) {
     I18nService.locale = locale;

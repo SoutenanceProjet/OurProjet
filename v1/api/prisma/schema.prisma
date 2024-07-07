@@ -31,8 +31,25 @@ model User {
 
   password String
   photo    String?
-  sent     Message? @relation(name: "sent")
-  received Message? @relation(name: "received")
+  sent     Conversation[] @relation(name: "sent")
+  received Conversation[] @relation(name: "received")
+  otps     Otp[]
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sender   User   @relation(fields: [senderId], references: [id], name: "sent")
+  senderId String
+
+  receiver   User   @relation(fields: [receiverId], references: [id], name: "received")
+  receiverId String
+
+  messages Message[]
+
+  lastMessage Json?
 }
 
 model Message {
@@ -46,9 +63,19 @@ model Message {
 
   content String
 
-  sender   User   @relation(fields: [senderId], references: [id], name: "sent")
-  senderId String @unique
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+}
 
-  receiver   User   @relation(fields: [receiverId], references: [id], name: "received")
-  receiverId String @unique
+model Otp {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  value     String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  expiredAt DateTime
+  expired   Boolean  @default(false)
+  used      Boolean  @default(false)
 }

@@ -1,14 +1,14 @@
 import './Message.css';
 
 interface MessageProps {
-  text: string,
-  isSender: boolean
+  text: string;
+  isSender: boolean;
 }
 
-function Message ({ text, isSender } : MessageProps){
+function Message({ text, isSender }: MessageProps) {
   return (
     <>
-      <div className={`message ${isSender ? 'sender' : 'receiver'}`} >
+      <div className={`message ${isSender ? 'sender' : 'receiver'}`}>
         <p>{text}</p>
       </div>
       <div className={`${isSender ? 'sender' : 'receiver'}`}>
@@ -16,8 +16,7 @@ function Message ({ text, isSender } : MessageProps){
         <button>Delete</button>
       </div>
     </>
-    
   );
-};
+}
 
 export default Message;

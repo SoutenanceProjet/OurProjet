@@ -7,4 +7,7 @@ export const en = {
   BAD_GENDER_FORMAT: 'The gender provided is invalid',
   BAD_EMAIL_FORMAT: 'Email format is invalid',
   STRONG_PASSWORD_REQUIRED: 'The password provided is not strong enough',
+  USER_NOT_FOUND: 'User not found',
+  EXPIRED_OTP: 'Your OTP code has been expired',
+  INCORRECT_OTP: 'Incorrect OTP code',
 };

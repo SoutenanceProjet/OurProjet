@@ -2,14 +2,17 @@ import { $t } from 'src/i18n';
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Signin, Signup } from './users.dto';
+import { Signin, Signup, UpdatePassword, VerifyOtpPayload } from './users.dto';
 import { hash, compare } from 'bcrypt';
 import { UserSession } from './users.sessions';
+import { OtpService } from 'src/otp/otp.service';
+import { ConversationsService } from 'src/conversations/conversations.service';
 
-const USER_SELECT_FIELDS = {
+export const USER_SELECT_FIELDS = {
   id: true,
   email: true,
   gender: true,
@@ -24,6 +27,8 @@ export class UsersService {
   constructor(
     private prisma: PrismaService,
     private session: UserSession,
+    private otp: OtpService,
+    private conversation: ConversationsService,
   ) {}
 
   async signup(data: Signup) {
@@ -38,7 +43,12 @@ export class UsersService {
     const hashedPassword = await hash(data.password, 3);
     data.password = hashedPassword;
 
-    return await this.prisma.user.create({ data, select: USER_SELECT_FIELDS });
+    const user = await this.prisma.user.create({
+      data,
+      select: USER_SELECT_FIELDS,
+    });
+    this.conversation.registerNewUser(user.id);
+    return user;
   }
 
   async signin(data: Signin) {
@@ -63,5 +73,31 @@ export class UsersService {
 
   logout(token: string) {
     this.session.removeUser(token);
+  }
+
+  async forgotPassword(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      throw new NotFoundException($t('USER_NOT_FOUND'));
+    }
+
+    await this.otp.sendOtpByEmail(user);
+    return { userId: user.id };
+  }
+
+  async verifyOtp({ userId, value }: VerifyOtpPayload) {
+    await this.otp.verifyOtp(userId, value);
+    return { isValid: true };
+  }
+
+  async updatePassword({ userId, password }: UpdatePassword) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    const hashedPassword = await hash(password, 3);
+    return await this.prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedPassword },
+      select: USER_SELECT_FIELDS,
+    });
   }
 }

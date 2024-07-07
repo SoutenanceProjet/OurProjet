@@ -3,9 +3,11 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { UserSession } from './users.sessions';
+import { OtpModule } from 'src/otp/otp.module';
+import { ConversationsModule } from 'src/conversations/conversations.module';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, OtpModule, ConversationsModule],
   providers: [UsersService, UserSession],
   controllers: [UsersController],
   exports: [UsersService, UserSession],

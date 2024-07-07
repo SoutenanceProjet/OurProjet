@@ -1,72 +1,107 @@
-import  Label  from './Label'
-import  Input  from './Input'
-import  Button  from './Button'
-import { useState } from 'react';
-import './asideRightIn.css'
-import { Link } from 'react-router-dom';
+import Button from './Button';
+import { ChangeEvent, useState } from 'react';
+import './asideRightIn.css';
+import { Link, useNavigate } from 'react-router-dom';
 import { FormEvent } from 'react';
+import { InputWithLabel } from './input-with-label';
+import { api, setApiToken } from '../../api';
+import { User, useApp } from '../../providers/app.provider';
 
 type UserConnexion = {
   email: string;
   password: string;
 };
 
-const blankField : UserConnexion = {
-    email: '',
-    password: ''
-}
+const blankField: UserConnexion = {
+  email: '',
+  password: '',
+};
 
-const asideRightIn = () => {
+const AsideRightIn = () => {
+  const [userConnexion, setUserConnexion] = useState<UserConnexion>(blankField);
+  const [errors, setErrors] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { setUser } = useApp();
 
-    const [Email, setEmail] = useState<string>('');
-    const [Password, setPassword] = useState<string>('');
-    const [userConnexion, setUserConnexion] = useState<UserConnexion>(blankField);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value, id } = e.target;
+    setUserConnexion({ ...userConnexion, [id]: value });
+  };
 
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    console.log('here', e);
 
-    async function handleSubmit(e: FormEvent<HTMLFormElement>){
-        e.preventDefault();
-
-        setUserConnexion({email: Email, password: Password})
-
-        const response = await fetch("http://localhost:3000/users",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(userConnexion)
-        })
-
-        if(response.ok){
-            const data = await response.json();
-            setEmail('')
-            setPassword('')
-            setUserConnexion(blankField)
-            console.log(data)
-        }else{
-            console.log("error when you trying to connect")
-        }
+    try {
+      const response = await api.post('/users/signin', userConnexion);
+      setApiToken(response.data.authToken);
+      setUser(response.data.user as User);
+      navigate('/message');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const messages = error.response.data.message as string[] | string;
+      setErrors(Array.isArray(messages) ? messages : [messages]);
+      setTimeout(() => {
+        setErrors([]);
+      }, 10000);
+    } finally {
+      setLoading(false);
     }
+
+    setUserConnexion(blankField);
+  }
 
   return (
     <>
-        <div className="asideRight">
-            <h1 className="centering color">Se connecter</h1>
-            <form className="asideRightContainer" onSubmit={handleSubmit}>
-                <Label idValue="Email" text="Adresse mail" />
-                <Input type="text" id="Email" placeholder="example@gmail.com" value={Email} onChange={setEmail} />
+      <div className="asideRight">
+        <h1 className="centering color">Se connecter</h1>
 
-                <Label idValue="Password" text="Mot de passe" />
-                <Input type="password" id="Password" placeholder="Mot de passe" value={Password} onChange={setPassword} />
+        {errors.length > 0 && (
+          <div className="signUp__form__error ">
+            {errors.map((err, index) => (
+              <div key={index}>{err}</div>
+            ))}
+          </div>
+        )}
 
-                <div className="forgottenPassword"><Link to='/forgetPassword'>Mot de passe oublié ?</Link></div>
+        <form
+          className="asideRightContainer"
+          onSubmit={handleSubmit}>
+          <InputWithLabel
+            idValue="email"
+            text="Adresse mail"
+            type="text"
+            id="email"
+            placeholder="example@gmail.com"
+            value={userConnexion.email}
+            onChange={handleChange}
+          />
 
-                <Button text="Connexion"  />
+          <InputWithLabel
+            idValue="password"
+            text="Mot de passe"
+            type="password"
+            id="password"
+            placeholder="Mot de passe"
+            value={userConnexion.password}
+            onChange={handleChange}
+          />
 
-            </form>
-        </div>
+          <div className="forgottenPassword">
+            <Link to="/forgetPassword">Mot de passe oublié ?</Link>
+          </div>
+
+          <Button
+            text="Connexion"
+            disabled={loading}
+            loading={loading}
+          />
+        </form>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default asideRightIn
-
+export default AsideRightIn;
