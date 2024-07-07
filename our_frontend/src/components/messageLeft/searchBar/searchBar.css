@@ -1,0 +1,31 @@
+.searchBar__input{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 10%;
+}
+.searchBar__box{
+    display: flex;
+    width: 85%;
+    height: 60%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.searchBar__research img{
+    width: 80%;
+    height: 80%;
+    padding-top: 5px;
+    padding-left: 5px;
+    color: blue;
+}
+input{
+    width: 83%;
+    height: 98%;
+    border: none;
+    margin-left: 5px;
+    outline: none;
+}
