@@ -1,4 +1,4 @@
-import { CurrentUser } from './../decorators/current-user.decorator';
+import { CurrentUser } from '../decorators/current-user.decorator';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
