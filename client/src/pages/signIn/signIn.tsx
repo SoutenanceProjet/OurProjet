@@ -1,4 +1,4 @@
-import AsideLeft from '../../components/asideLeft/AsideLeft';
+import AsideLeft from '../../components/asideLeft/AsideLeft.tsx';
 import AsideRightIn from '../../components/asideRight/asideRightIn.tsx';
 import aside from '../../assets/aside.png';
 

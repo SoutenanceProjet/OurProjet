@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react';
-import Label from '../../components/asideRight/Label.tsx';
-import Button from '../../components/asideRight/Button.tsx';
-import SexeDropdown from '../../components/asideRight/SexeDropdown.tsx';
+import Label from './Label.tsx';
+import Button from './Button.tsx';
+import SexeDropdown from './SexeDropdown.tsx';
 
 import { FaCircleUser } from 'react-icons/fa6';
 import { MdOutlinePhotoCamera } from 'react-icons/md';
