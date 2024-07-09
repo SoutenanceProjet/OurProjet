@@ -46,8 +46,6 @@ export class SecurityMiddleware implements NestMiddleware {
     }
     req.session = session;
 
-    console.log('session:', session);
-
-    next();
+    return next();
   }
 }

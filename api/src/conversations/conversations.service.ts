@@ -46,4 +46,15 @@ export class ConversationsService {
       },
     });
   }
+
+  async findOne(id: string) {
+    return await this.prisma.conversation.findUnique({
+      where: { id },
+      include: {
+        messages: { orderBy: { createdAt: 'asc' } },
+        sender: true,
+        receiver: true,
+      },
+    });
+  }
 }

@@ -5,7 +5,7 @@ const message = () => {
   return (
     <>
       <div className="main">
-        <div className="aside">
+        <div className="aside-message">
           <MessageLeft />
           <MessageRight />
         </div>

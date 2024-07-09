@@ -16,6 +16,7 @@ function MessageList({ messages, currentUser }: MessageListProp) {
     <div className="message-list">
       {messages.map((message) => (
         <Message
+          key={message.text}
           text={message.text}
           isSender={message.sender === currentUser}
         />

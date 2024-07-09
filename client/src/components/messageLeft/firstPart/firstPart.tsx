@@ -42,22 +42,24 @@ const FirstPart = () => {
           )}
           <div>{capitalize(user?.username ?? '')}</div>
         </div>
-        <div className="firstPart__imageSetting">
+        <div className="firstPart__bottom_wrapper">
           <Link to={link}>
-            <img
-              src={setting}
-              alt="User"
-            />
-            <div>Setting</div>
+            <div className="firstPart__imageSetting">
+              <img
+                src={setting}
+                alt="User"
+              />
+              <div>Setting</div>
+            </div>
           </Link>
-        </div>
-        <div className="firstPart__imageLogOut">
           <Link to={login}>
-            <img
-              src={logout}
-              alt="User"
-            />
-            <div>Log out</div>
+            <div className="firstPart__imageLogOut">
+              <img
+                src={logout}
+                alt="User"
+              />
+              <div>Log out</div>
+            </div>
           </Link>
         </div>
       </div>

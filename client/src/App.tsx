@@ -9,6 +9,8 @@ import Token from './pages/token/Token';
 import NewPassword from './pages/newPassword/newPassword';
 import PolitiquePage from './pages/politiquePage/PolitiquePage';
 import { AppProvider } from './providers/app.provider';
+import { MessageInfo } from './pages/message/messageRight/message-info';
+import { DirectMessage } from './pages/message/messageRight/direct-message';
 
 function App() {
   return (
@@ -30,8 +32,16 @@ function App() {
             />
             <Route
               path="/message"
-              element={<Message />}
-            />
+              element={<Message />}>
+              <Route
+                index
+                element={<MessageInfo />}
+              />
+              <Route
+                path=":id"
+                element={<DirectMessage />}
+              />
+            </Route>
             <Route
               path="/setting"
               element={<Setting />}

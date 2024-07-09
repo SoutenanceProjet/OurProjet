@@ -29,11 +29,13 @@ model User {
   nationality String? @db.VarChar(100)
   email       String  @unique @db.VarChar(255)
 
-  password String
-  photo    String?
-  sent     Conversation[] @relation(name: "sent")
-  received Conversation[] @relation(name: "received")
-  otps     Otp[]
+  password         String
+  photo            String?
+  sent             Conversation[] @relation(name: "sent")
+  received         Conversation[] @relation(name: "received")
+  otps             Otp[]
+  messagesSent     Message[]      @relation(name: "message_sent")
+  messagesReceived Message[]      @relation(name: "message_received")
 }
 
 model Conversation {
@@ -65,6 +67,12 @@ model Message {
 
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
+
+  sender   User   @relation(fields: [senderId], references: [id], name: "message_sent")
+  senderId String
+
+  receiver   User   @relation(fields: [receiverId], references: [id], name: "message_received")
+  receiverId String
 }
 
 model Otp {

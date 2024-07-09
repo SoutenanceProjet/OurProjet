@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { ApiBearerAuth, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
@@ -21,5 +21,13 @@ export class ConversationsController {
     @CurrentUser() { user }: Session,
   ) {
     return await this.service.findAllByUserId(user.id, search);
+  }
+
+  @Get(':id')
+  async one(@Param('id') id: string) {
+    console.log('here:', id);
+    const result = await this.service.findOne(id);
+    console.log(result);
+    return result;
   }
 }

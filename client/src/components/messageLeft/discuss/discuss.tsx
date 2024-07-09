@@ -1,18 +1,28 @@
 import './discuss.css';
 import UserLogo from '../../../assets/User.jpg';
+import { useNavigate } from 'react-router-dom';
+import { capitalize } from '../../../utils';
 
 interface DiscussProp {
   road: string;
   title: string;
   description: string;
+  id: string;
 }
 
-const discuss = ({ road, title, description }: DiscussProp) => {
+const Discuss = ({ road, title, description, id }: DiscussProp) => {
   const myclass = `discuss__image`;
+  const navigate = useNavigate();
+
+  const gotoConversation = () => {
+    navigate(`/message/${id}`);
+  };
 
   return (
     <>
-      <div className="discuss__box otherDiscuss__box">
+      <div
+        className="discuss__box otherDiscuss__box"
+        onClick={gotoConversation}>
         <div className={myclass}>
           {road ? (
             <img
@@ -27,7 +37,7 @@ const discuss = ({ road, title, description }: DiscussProp) => {
           )}
         </div>
         <div className="discuss__message">
-          <p className="discuss__name">{title}</p>
+          <p className="discuss__name">{capitalize(title)}</p>
           <p className="discuss__fewDescription">{description}</p>
         </div>
       </div>
@@ -35,4 +45,4 @@ const discuss = ({ road, title, description }: DiscussProp) => {
   );
 };
 
-export default discuss;
+export default Discuss;

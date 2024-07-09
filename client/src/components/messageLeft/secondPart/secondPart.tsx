@@ -10,14 +10,14 @@ export type Conversation = {
   receiver: User;
   user?: User;
   lastMessage?: { content: string };
+  id: string;
+  messages?: any;
 };
 
 const SecondPart = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [search, setSearch] = useState<string>('');
   const { user } = useApp();
-
-  console.log(search, 'search');
 
   async function getConversations(search?: string) {
     const response = await api.get(
@@ -47,6 +47,7 @@ const SecondPart = () => {
         {conversations.map((c) => (
           <Discuss
             key={c.user?.id}
+            id={c.id ?? ''}
             road={c.user?.photo ?? ''}
             title={c.user?.username ?? ''}
             description={c.lastMessage?.content ?? ''}

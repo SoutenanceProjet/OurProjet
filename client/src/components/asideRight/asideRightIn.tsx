@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FormEvent } from 'react';
 import { InputWithLabel } from './input-with-label';
 import { api, setApiToken } from '../../api';
-import { User, useApp } from '../../providers/app.provider';
 
 type UserConnexion = {
   email: string;
@@ -22,7 +21,6 @@ const AsideRightIn = () => {
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useApp();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, id } = e.target;
@@ -37,7 +35,7 @@ const AsideRightIn = () => {
     try {
       const response = await api.post('/users/signin', userConnexion);
       setApiToken(response.data.authToken);
-      setUser(response.data.user as User);
+
       navigate('/message');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

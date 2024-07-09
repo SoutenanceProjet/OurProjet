@@ -7,12 +7,12 @@ import {
 } from 'react';
 
 export type User = {
-  id: string;
-  email: string;
-  gender: string;
+  id?: string;
+  email?: string;
+  gender?: string;
   photo: string;
-  nationality: string;
-  profession: string;
+  nationality?: string;
+  profession?: string;
   username: string;
 };
 
