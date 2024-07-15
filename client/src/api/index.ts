@@ -1,3 +1,4 @@
+import { initPushEvent } from '@asaje/sse-push-event-client';
 import axios from 'axios';
 
 const appUrl = import.meta.env.VITE_APP_API_URL;
@@ -25,6 +26,8 @@ function init() {
   if (token) {
     setApiToken(token);
   }
+
+  initPushEvent(appUrl + '/events');
 }
 
 init();

@@ -5,11 +5,13 @@ import MessageList from '../../../components/messageRight/MessageList';
 import { Conversation } from '../../../components/messageLeft/secondPart/secondPart';
 import { useParams } from 'react-router-dom';
 import { api } from '../../../api';
+import { useApp } from '../../../providers/app.provider';
+import { addPushEventListener } from '@asaje/sse-push-event-client';
 
 export function DirectMessage() {
   const [conversation, setConversation] = useState<Conversation>();
   const { id } = useParams();
-  console.log(id);
+  const { user } = useApp();
 
   async function getConversation() {
     const response = await api.get(`conversations/${id}`);
@@ -18,25 +20,28 @@ export function DirectMessage() {
 
   useEffect(() => {
     getConversation();
+    addPushEventListener('new-message', () => {
+      getConversation();
+    });
   }, [id]);
 
   return (
     <>
-      <div className="area">
-        <div>
-          <Header
-            name={conversation?.sender.username ?? ''}
-            profile={conversation?.sender.photo ?? ''}
-            active={true}
-          />
-          <MessageList
-            messages={conversation?.messages ?? []}
-            currentUser={''}
-          />
-        </div>
-        <div>
-          <MessageBox />
-        </div>
+      <div className="direct-message">
+        <Header
+          name={conversation?.sender.username ?? ''}
+          profile={conversation?.sender.photo ?? ''}
+          active={true}
+        />
+        <MessageList
+          messages={conversation?.messages ?? []}
+          currentUser={user?.id ?? ''}
+        />
+        <MessageBox
+          id={id}
+          conversation={conversation}
+          onSent={getConversation}
+        />
       </div>
     </>
   );

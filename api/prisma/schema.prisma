@@ -36,6 +36,9 @@ model User {
   otps             Otp[]
   messagesSent     Message[]      @relation(name: "message_sent")
   messagesReceived Message[]      @relation(name: "message_received")
+
+  publicKey  String?
+  privateKey String?
 }
 
 model Conversation {

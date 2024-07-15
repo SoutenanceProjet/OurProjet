@@ -14,6 +14,8 @@ export type User = {
   nationality?: string;
   profession?: string;
   username: string;
+  publicKey?: string;
+  privateKey?: string;
 };
 
 type AppContextArgs = {

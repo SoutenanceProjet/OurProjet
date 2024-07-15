@@ -11,6 +11,7 @@ import { hash, compare } from 'bcrypt';
 import { UserSession } from './users.sessions';
 import { OtpService } from 'src/otp/otp.service';
 import { ConversationsService } from 'src/conversations/conversations.service';
+import { EncryptionService } from 'src/encryption/encryption.service';
 
 export const USER_SELECT_FIELDS = {
   id: true,
@@ -20,6 +21,7 @@ export const USER_SELECT_FIELDS = {
   nationality: true,
   profession: true,
   username: true,
+  publicKey: true,
 };
 
 @Injectable()
@@ -29,6 +31,7 @@ export class UsersService {
     private session: UserSession,
     private otp: OtpService,
     private conversation: ConversationsService,
+    private encryption: EncryptionService,
   ) {}
 
   async signup(data: Signup) {
@@ -43,8 +46,10 @@ export class UsersService {
     const hashedPassword = await hash(data.password, 3);
     data.password = hashedPassword;
 
+    const { publicKey, privateKey } = await this.encryption.generateKeys();
+
     const user = await this.prisma.user.create({
-      data,
+      data: { ...data, privateKey, publicKey },
       select: USER_SELECT_FIELDS,
     });
     this.conversation.registerNewUser(user.id);

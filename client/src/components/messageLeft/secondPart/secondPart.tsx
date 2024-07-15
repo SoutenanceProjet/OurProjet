@@ -24,18 +24,26 @@ const SecondPart = () => {
       `conversations${search ? '?search=' + search : ''}`,
     );
     const _conversations = response.data as Conversation[];
+    console.log(
+      _conversations.map((c) => ({
+        ...c,
+        user: c.receiver.id !== user?.id ? c.receiver : c.sender,
+      })),
+      'conv',
+      user?.id,
+    );
 
     setConversations(
       _conversations.map((c) => ({
         ...c,
-        user: c.sender.id === user?.id ? c.receiver : c.sender,
+        user: c.receiver.id !== user?.id ? c.receiver : c.sender,
       })),
     );
   }
 
   useEffect(() => {
     getConversations(search);
-  }, [search]);
+  }, [search, user]);
 
   return (
     <>

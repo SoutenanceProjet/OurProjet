@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import Message from './Message.tsx';
 import './MessageList.css';
 
@@ -7,18 +8,36 @@ interface MessageListProp {
 }
 
 interface MessagePropsSend {
-  text: string;
-  sender: string;
+  id: string;
+  content: string;
+  senderId: string;
+  receiverId: string;
 }
 
 function MessageList({ messages, currentUser }: MessageListProp) {
+  const messageListRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToEnd = () => {
+    if (messageListRef.current) {
+      const el = messageListRef.current;
+      el.scrollTop = el.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToEnd();
+  }, []);
+
   return (
-    <div className="message-list">
+    <div
+      ref={messageListRef}
+      className="message-list">
       {messages.map((message) => (
         <Message
-          key={message.text}
-          text={message.text}
-          isSender={message.sender === currentUser}
+          key={message.id}
+          content={message.content}
+          isSender={message.senderId === currentUser}
+          scrollToEnd={scrollToEnd}
         />
       ))}
     </div>
